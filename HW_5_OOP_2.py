@@ -197,25 +197,16 @@ print('The genuine age is:', getattr(p, 'age'))
 class Student:
     id = 0
     name = ""
-    email = ""
 
-    def __init__(self, id, name, email):
+    def __init__(self, id, name):
         self.id = id
         self.name = name
-        self.email = email
 
-    @property
-    def get_student_email(self):
-        return self.email
+student = Student(7, 'John')
+setattr(student, 'email', 'km@gmail.com')
+student_email = getattr(student, 'email')
+print(student_email)
 
-    @get_student_email.setter
-    def get_student_email(self, student_email):
-        self.email = student_email
-
-student = Student(1, 'John', 'js@gmail.com')
-print(student.email)
-Student.get_student_email = 'km@gmail.com'
-print(Student.get_student_email)
 
 # 11*.
 #     """
