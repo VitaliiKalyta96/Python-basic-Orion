@@ -1,0 +1,51 @@
+1. mkdir 'cursor'
+touch 'test.txt'
+2. cp 'test.txt' cursor
+3. la cursor
+4. ls -la -r
+5. cd cursor
+mv 'test.txt' 'new_test.txt'
+touch 'empty_file.txt'
+6. rm empty_file.txt new_test.txt
+touch 'hw.txt'
+7*. touch --help
+
+touch -m -t 202001010415.00 hw.txt
+stat hw.txt
+touch hw.sh hw1.sh hw2.sh hw1.txt
+8*. grep --help 
+
+ls | grep *.sh
+9. mkdir `text_files`
+cp *.txt 'text_files'
+10. echo `cursor`> hw.txt
+11. cat hw.txt
+12*. sudo chmod 024 hw.txt
+ls -la
+cat 'hw.txt'
+13*. sudo chmod 765 hw.txt
+ls -la
+cat 'hw.txt'
+14*. nano hw.txt
+1
+2 
+3
+4
+5
+6
+7
+8
+9
+10
+Ctr + X.
+15. head -n 7 hw.txt
+16*. touch test.sh
+echo 'echo "Hello"' > test.sh
+cat test.sh
+sudo chmod 554 test.sh
+ls -la
+17. ./test.sh
+18*. ls | grep *.sh
+або
+find *.sh
+.
