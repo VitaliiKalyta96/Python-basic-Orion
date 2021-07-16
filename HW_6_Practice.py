@@ -16,18 +16,24 @@ class GardenMeta(type):
 
 
 class Garden(metaclass=GardenMeta):
-    def __init__(self, vegetables, fruits):
+    def __init__(self, vegetables, fruits, pests, gardener):
         self.vegetables = vegetables
         self.fruits = fruits
+        self.pests = pests
+        self.gardener = gardener
+
 
     def show_the_garden(self):
         print(f'I have such vegetables {self.vegetables}')
         print(f'I have such fruits {self.fruits}')
+        print(f'I have such pests {self.pests}')
+        print(f'I have a gardener {self.gardener}')
 
 
 class Vegetables:
     def __init__(self, vegetable_type):
         self.vegetable_type = vegetable_type
+        self.pests = []
 
     states = {"0": "None", "1": "Flowering", "2": "Green", "3": "Red"}
 
@@ -39,10 +45,15 @@ class Vegetables:
     def is_ripe(self):
         raise NotImplementedError("You missed me")
 
+    @abstractmethod
+    def pests_eat_plants(self):
+        raise NotImplementedError("You missed me")
+
 
 class Fruits:
     def __init__(self, fruits_type):
         self.fruits_type = fruits_type
+        self.pests = []
 
     states = {0: "None", 1: "Flowering", 2: "Green", 3: "Red"}
 
@@ -52,6 +63,10 @@ class Fruits:
 
     @abstractmethod
     def is_ripe(self):
+        raise NotImplementedError("You missed me")
+
+    @abstractmethod
+    def pests_eat_plants(self):
         raise NotImplementedError("You missed me")
 
 
@@ -73,6 +88,11 @@ class Tomato(Vegetables):
     def is_ripe(self):
         return self.states == 3
 
+    def pests_eat_plants(self):
+        if self.states >= 2:
+            return print(f'Pests eat this {self.number_of_tomatoes} tomatos. ')
+        else:
+            return print(f" Pests don't eat this tomatos.")
 
 class Apple(Fruits):
     def __init__(self, fruits_type, number_of_apples):
@@ -92,6 +112,11 @@ class Apple(Fruits):
     def is_ripe(self):
         return self.states == 3
 
+    def pests_eat_plants(self):
+        if self.states <= 2:
+            return print(f'Pests eat this {self.number_of_apples} apples.')
+        else:
+            return print(f" Pests don't eat this apples.")
 
 class TomatoBush:
     def __init__(self, number_of_tomatoes):
@@ -100,13 +125,6 @@ class TomatoBush:
     def growth_all(self):
         for tomato in self.tomatoes:
             tomato.growth()
-
-    # def all_are_ripe(self):
-    #   lst = []
-    #   for tomato in self.tomatoes:
-    #     ripe_state = tomato.is_ripe()
-    #       lst.append(ripe_state)
-    #   return all(lst)
 
     def all_are_ripe(self):
         return all([tomato.is_ripe() for tomato in self.tomatoes])
@@ -143,47 +161,35 @@ class Gardener:
         for plant in self.plants:
             if plant.all_are_ripe():
                 plant.give_away_all()
+                print("Finally collect all harvest")
             else:
                 print('Too early to harvest')
 
-
-# And there is also a Pests who have:
-# 1. Type
-# 2. Quntity
 
 class Pests:
     def __init__(self, pests_type, quantity):
         self.pests_type = pests_type
         self.quantity = quantity
 
-
     def quantity_pests(self):
         print(f'A pests is quantity {self.quantity}.')
 
-# And: 1.Eat the plants
-    def eat_the_plants(self, plants):
-        for plant in plants:
-            if plant.all_are_ripe():
-                plant.give_away_all()
-            else:
-                print(f'The worms early eat')
-
-tomato_bush = TomatoBush(8)
-apple_tree = AppleTree(10)
+tomato_bush = TomatoBush(5)
+apple_tree = AppleTree(4)
 Tom = Gardener('Tom', [tomato_bush, apple_tree])
-pests = Pests('worm', 12)
-garden = Garden(tomato_bush, apple_tree)
+pests = Pests('worm', 10)
+garden = Garden(vegetables=tomato_bush.tomatoes, fruits=apple_tree.apples, pests=pests, gardener=Tom)
 garden.show_the_garden()
-# pests.eat_the_plants()
 pests.quantity_pests()
-Tom.work()
+
+# print(tomato_bush.tomatoes)
+# print(apple_tree.apples)
+
 Tom.work()
 Tom.work()
 Tom.harvest()
-#
-print(tomato_bush.tomatoes)
-print(apple_tree.apples)
+Tom.work()
+Tom.harvest()
 
 
-# P.s. I recognise my code work not fully.
-# To give me evaluate this 'hw' in fact.
+
