@@ -26,14 +26,16 @@ class Garden(metaclass=GardenMeta):
     def show_the_garden(self):
         print(f'I have such vegetables {self.vegetables}')
         print(f'I have such fruits {self.fruits}')
-        print(f'I have such pests {self.pests}')
+        # print(f'I have such pests {self.pests}')
         print(f'I have a gardener {self.gardener}')
+
+    def attack_pests(self):
+        self.pests.eat(self.gardener.plants)
 
 
 class Vegetables:
     def __init__(self, vegetable_type):
         self.vegetable_type = vegetable_type
-        self.pests = []
 
     states = {"0": "None", "1": "Flowering", "2": "Green", "3": "Red"}
 
@@ -46,14 +48,14 @@ class Vegetables:
         raise NotImplementedError("You missed me")
 
     @abstractmethod
-    def pests_eat_plants(self):
+    def eating(self):
         raise NotImplementedError("You missed me")
 
 
 class Fruits:
     def __init__(self, fruits_type):
         self.fruits_type = fruits_type
-        self.pests = []
+
 
     states = {0: "None", 1: "Flowering", 2: "Green", 3: "Red"}
 
@@ -66,7 +68,7 @@ class Fruits:
         raise NotImplementedError("You missed me")
 
     @abstractmethod
-    def pests_eat_plants(self):
+    def eating(self):
         raise NotImplementedError("You missed me")
 
 
@@ -88,11 +90,8 @@ class Tomato(Vegetables):
     def is_ripe(self):
         return self.states == 3
 
-    def pests_eat_plants(self):
-        if self.states >= 2:
-            return print(f'Pests eat this {self.number_of_tomatoes} tomatos. ')
-        else:
-            return print(f" Pests don't eat this tomatos.")
+    def eating(self):
+        return self.states in [1, 2]
 
 class Apple(Fruits):
     def __init__(self, fruits_type, number_of_apples):
@@ -112,11 +111,8 @@ class Apple(Fruits):
     def is_ripe(self):
         return self.states == 3
 
-    def pests_eat_plants(self):
-        if self.states <= 2:
-            return print(f'Pests eat this {self.number_of_apples} apples.')
-        else:
-            return print(f" Pests don't eat this apples.")
+    def eating(self):
+        return self.states in [1, 2]
 
 class TomatoBush:
     def __init__(self, number_of_tomatoes):
@@ -132,6 +128,17 @@ class TomatoBush:
     def give_away_all(self):
         self.tomatoes = []
 
+    def attack_pests(self):
+        for tomato in self.tomatoes.copy():
+            if tomato.eating():
+                self.tomatoes.remove(tomato)
+                print('Om-nom-nom')
+            else:
+                print("What happened with this food? She's not like that")
+
+    def to_check_states(self):
+        for tomato in self.tomatoes:
+            tomato.print_state()
 
 class AppleTree:
     def __init__(self, number_of_apples):
@@ -147,6 +154,17 @@ class AppleTree:
     def give_away_all(self):
         self.apples = []
 
+    def attack_pests(self):
+        for apple in self.apples.copy():
+            if apple.eating():
+                self.apples.remove(apple)
+                print('Om-nom-nom')
+            else:
+                print("What happened with this food? She's not like that")
+
+    def to_check_states(self):
+        for apple in self.apples:
+            apple.print_state()
 
 class Gardener:
     def __init__(self, name, plants):
@@ -165,6 +183,14 @@ class Gardener:
             else:
                 print('Too early to harvest')
 
+    def to_poison_pests(self):
+        Garden().pests.quantity = 0
+        print("Go away pests!!! This is my garden and only my garden!")
+
+    def to_check_states(self):
+        for plant in self.plants:
+            plant.to_check_states()
+
 
 class Pests:
     def __init__(self, pests_type, quantity):
@@ -174,22 +200,31 @@ class Pests:
     def quantity_pests(self):
         print(f'A pests is quantity {self.quantity}.')
 
+    def eat(self, plants):
+        if self.quantity > 9:
+            for plant in plants:
+                plant.attack_pests()
+
 tomato_bush = TomatoBush(5)
 apple_tree = AppleTree(4)
 Tom = Gardener('Tom', [tomato_bush, apple_tree])
 pests = Pests('worm', 10)
+
 garden = Garden(vegetables=tomato_bush.tomatoes, fruits=apple_tree.apples, pests=pests, gardener=Tom)
-garden.show_the_garden()
-pests.quantity_pests()
 
 # print(tomato_bush.tomatoes)
 # print(apple_tree.apples)
 
 Tom.work()
+Tom.to_check_states()
+pests.quantity_pests()
+garden.attack_pests()
+Tom.to_poison_pests()
+Tom.harvest()
+garden.show_the_garden()
 Tom.work()
 Tom.harvest()
-Tom.work()
-Tom.harvest()
+
 
 
 
