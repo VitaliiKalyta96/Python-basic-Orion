@@ -1,0 +1,89 @@
+1. Create a folder called cursor_git_hw.
+mkdir cursor_git_hw
+2. cd into the cursor_git_hw folder.
+cd cursor_git_hw
+3. Create a file called first.txt.
+touch first.txt
+git status
+4. Add first.txt to the staging area.
+git add first.txt
+git status
+5. Commit with the message "adding first.txt".
+git commit -m "adding first.txt"
+git status
+6. Check out your commit with git log.
+git log
+7. Create another file called second.txt.
+touch second.txt
+ls
+git status
+8. Add second.txt to the staging area.
+git add second.txt
+git status
+9. Commit with the message "adding second.txt"
+git commit -m "adding second.txt"
+git status
+git log
+10. Remove the first.txt file.
+rm first.txt
+11. Add this change to the staging area.
+git add first.txt
+git status
+12. Commit with the message "removing first.txt".
+git commit -m "removing first.txt"
+git status
+13. Check out your commits using git log.
+git log
+14. Push your changes to remote.
+git push
+15. Create new branch from master called `first` (without checkouting).
+git branch first
+git branch
+16. Create one more branch from master called `second` (with checkouting to it).
+git checkout -b second
+git branch
+17. Change the second.txt file with "Hello" string.  
+echo "Hello" > second.txt
+18. Stash you changes and checkout to first branch.
+git stash
+git checkout first
+git branch
+19. Checkout back and Stash Pop the changes.
+git checkout second
+git stash pop
+20. Add your changes to the staging area.
+git add second.txt
+git status
+21. Commit with the message "Changing second.txt".
+git commit -m "Changing second.txt"
+git status
+22. Push your changes to remote.
+git push
+git push -u origin second
+23. Checkout to first branch.
+git checkout first
+git status
+24. Change the second.txt file with "Cursor" string.
+echo "Cursor" > second.txt
+25. Add your changes to the staging area.
+git add second.txt
+git status 
+26. Commit with the message "Changing second.txt".
+git commit -m "Changing second.txt"
+git status
+27. Push your changes to remote.
+git push
+git push -u origin first
+28. Checkout to master branch.
+git checkout master
+git branch
+29*. Merge the changes from second branch.
+git merge second
+30*. Then merge the changes from first branch.
+git merge first
+31*. Resolve conflict and push the changes to remote
+git add second.txt
+git status
+git commit -m "resolved conflict"
+git push
+.
