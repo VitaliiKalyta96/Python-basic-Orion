@@ -90,7 +90,114 @@ while True:
         logging.error("Error. Not input value.")
         print("Not input value.")
 
+# # 2 Task.
+# Version 1. Then when try-except outside.
+#
+# from random import randrange
+# import time
+#
+#
+# class RobotVacuumCleaner:
+#
+#     def __init__(self, battery_charge, capacity_garbage, amount_of_water):
+#         self.battery_charge = battery_charge
+#         self.capacity_garbage = capacity_garbage
+#         self.amount_of_water = amount_of_water
+#
+#     def move(self):
+#         self.battery_charge -= 10
+#         print("Robot Vacuum Cleaner move")
+#
+#         if self.battery_charge <= 0:
+#             raise BatteryDischarged
+#
+#         if self.battery_charge <= 20:
+#             raise BatteryLow
+#
+#         if self.amount_of_water >= 0:
+#             self.wash()
+#         else:
+#             raise EmptyWater
+#
+#         if self.capacity_garbage <= 100:
+#             self.vacuum_cleaner()
+#         else:
+#             raise FullCapacityGarbage
+#
+#         time.sleep(1)
+#         print("___________________________________________")
+#
+#     def wash(self):
+#         self.amount_of_water -= randrange(0, 10)
+#         print("wash")
+#
+#         if self.amount_of_water <= 0:
+#             raise EmptyWater
+#
+#         time.sleep(1)
+#
+#     def vacuum_cleaner(self):
+#         self.capacity_garbage += randrange(0, 10)
+#         print("cleaning")
+#
+#         if 80 < self.capacity_garbage < 100:
+#             raise HighCapacityGarbage
+#
+#         elif self.capacity_garbage >= 100:
+#             raise FullCapacityGarbage
+#
+#         time.sleep(1)
+#
+#
+# class BatteryLow(Exception):
+#     pass
+#
+#
+# class BatteryDischarged(Exception):
+#     pass
+#
+#
+# class EmptyWater(Exception):
+#     pass
+#
+#
+# class HighCapacityGarbage(Exception):
+#     pass
+#
+#
+# class FullCapacityGarbage(Exception):
+#     pass
+#
+#
+# the_cleaning = RobotVacuumCleaner(randrange(0, 100), randrange(0, 100), randrange(0, 100))
+#
+# while True:
+#     try:
+#         print(
+#             f"Charge:{the_cleaning.battery_charge}, Water:{the_cleaning.amount_of_water}, "
+#             f"Garbage:{the_cleaning.capacity_garbage} ")
+#         the_cleaning.move()
+#
+#     except EmptyWater:
+#         print("Have not water.")
+#         break
+#
+#     except HighCapacityGarbage:
+#         print("Already 80% garbage.")
+#
+#     except FullCapacityGarbage:
+#         print("The full bucket! Clean")
+#         break
+#
+#     except BatteryLow:
+#         print("The battery less 20%.")
+#
+#     except BatteryDischarged:
+#         print("Robot Vacuum Cleaner discharged. Put in charge.")
+#         break
+
 # 2 Task.
+# Version 2. Then when try-except inside.
 
 from random import randrange
 import time
@@ -104,45 +211,59 @@ class RobotVacuumCleaner:
         self.amount_of_water = amount_of_water
 
     def move(self):
-        self.battery_charge = 100
-        print("Robot Vacuum Cleaner move")
 
-        if self.battery_charge <= 20:
-            raise BatteryLow
-
-        elif self.battery_charge == 0:
-            self.battery_charge = 0
-            raise BatteryDischarged
-
-        if self.amount_of_water > 0:
-            self.wash()
-        if self.capacity_garbage < 100:
+        while True:
             self.vacuum_cleaner()
+            self.wash()
+            try:
+                self.battery_charge -= 10
+                print("Robot Vacuum Cleaner move")
 
-        if self.amount_of_water <= 0 and self.capacity_garbage <= 100:
-            raise Stop
+                if self.battery_charge <= 0:
+                    raise BatteryDischarged
 
-        time.sleep(2)
-        print("___________________________________________")
+                if self.battery_charge <= 20:
+                    raise BatteryLow
+
+            except BatteryLow:
+                print("The battery less 20%.")
+            except BatteryDischarged:
+                print("Robot Vacuum Cleaner discharged. Put in charge.")
+                break
+
+            print("___________________________________________")
+            time.sleep(1)
 
     def wash(self):
-        self.amount_of_water = 3
-        print("Robot Vacuum Cleaner wash")
+        try:
+            self.amount_of_water -= randrange(0, 10)
+            print("wash")
 
-        if self.amount_of_water <= 0:
-            raise EmptyWater
+            if self.amount_of_water <= 0:
+                raise EmptyWater
+
+        except EmptyWater:
+            print("Have not water.")
+
+    time.sleep(1)
 
     def vacuum_cleaner(self):
-        if self.capacity_garbage <= 100:
-            self.capacity_garbage += randrange(0, 5)
-            print("VACUUM CLEANING")
+        try:
+            self.capacity_garbage += randrange(0, 10)
+            print("cleaning")
 
-        if 80 < self.capacity_garbage < 100:
-            raise HighCapacityGarbage
+            if 80 < self.capacity_garbage < 100:
+                raise HighCapacityGarbage
 
-        elif self.capacity_garbage + randrange(0, 5) >= 100:
-            self.capacity_garbage = 100
-            raise FullCapacityGarbage
+            elif self.capacity_garbage >= 100:
+                raise FullCapacityGarbage
+
+        except HighCapacityGarbage:
+            print("Already 80% garbage.")
+        except FullCapacityGarbage:
+            print("The full bucket! Clean")
+
+    time.sleep(1)
 
 
 class BatteryLow(Exception):
@@ -165,52 +286,14 @@ class FullCapacityGarbage(Exception):
     pass
 
 
-class Stop(Exception):
-    pass
-
-
 the_cleaning = RobotVacuumCleaner(randrange(0, 100), randrange(0, 100), randrange(0, 100))
 
-while True:
-    try:
-        print(
-            f"Charge:{the_cleaning.battery_charge}, Water:{the_cleaning.amount_of_water}, Garbage:{the_cleaning.capacity_garbage}")
-        the_cleaning.move()
-    except BatteryLow:
-        print("Charge battery low then 20%.")
-        if the_cleaning.battery_charge > 20:
-            try:
-                the_cleaning.move()
-            except BatteryLow:
-                print("Charge battery low then 20%.")
-        if the_cleaning.amount_of_water > 0:
-            try:
-                the_cleaning.wash()
-            except EmptyWater:
-                print("The water is empty")
-        if the_cleaning.capacity_garbage < 100:
-            try:
-                the_cleaning.vacuum_cleaner()
-            except HighCapacityGarbage:
-                print("Already many dush almost.")
-            except FullCapacityGarbage:
-                print("The vacuum cleaner is full! Empty him.")
-        time.sleep(1)
-    except BatteryDischarged:
-        print("Move the end. Put on charging")
-        break
-    except Stop:
-        print("Robot vacuum cleaner finished cleaning.")
-        break
-    except EmptyWater:
-        print("The water is empty")
-        if the_cleaning.capacity_garbage < 100:
-            try:
-                the_cleaning.vacuum_cleaner()
-            except HighCapacityGarbage:
-                print("Already many dush almost.")
-    except HighCapacityGarbage:
-        print("Already many dush almost.")
-    except FullCapacityGarbage:
-        print("The vacuum cleaner is full! Empty him.")
-        break
+print(f"Charge:{the_cleaning.battery_charge}, Water:{the_cleaning.amount_of_water}, "
+      f"Garbage:{the_cleaning.capacity_garbage} ")
+
+the_cleaning.move()
+
+
+
+
+
