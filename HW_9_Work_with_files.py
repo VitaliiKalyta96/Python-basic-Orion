@@ -34,6 +34,7 @@ with open('task1_new.txt', 'rt+') as file_2:
 
 from pickle import load
 
+
 with open('task2', 'rb') as file_2:
     return_file_2 = load(file_2)
     print(return_file_2)
