@@ -10,61 +10,37 @@
 # субтитри повинні мати вигляд простого тексту.
 # Це означає що окрім видалення міток часу, вам потрібно видалити переноси
 # рядків.
-#    Undertask 1.
-file = open('task_1.txt', 'rt')
-list_comp = file.readlines()
-# # A definition data types
-# print(type(list_comp))
-# # To read file 'task_1.txt'
-print(list_comp)
-# Building function conversion list to dict
-def Convert(list_comp):
-    it = iter(list_comp)
-    res_dct = dict(zip(it, it))
-    return res_dct
-print(Convert(list_comp))
-# To created variable for comfortable perform the task.
-dict_comp = Convert(list_comp)
 
-print(dict_comp.keys())
-print(dict_comp.values())
-file.close()
+with open('task1.txt', 'rt') as file_1:
+    list_comp = file_1.readlines()
+    # print(list_comp)
+    list_comp = [block.strip() for block in list_comp]
+    dict_comp = dict(zip(list_comp[::2], list_comp[1::2]))
+    print(dict_comp)
 
-#    Undertask 2.
-file = open('task_1.txt', 'rb')
-list_comp = file.read()
-# print(list_comp)
-a = str(list_comp)
-print(type(a))
-def remove_spaces(a):
-    a = a.replace("\n", "")
-    return a
-# print(remove_spaces(a))
+with open('task1_new.txt', 'wt') as file_2:
+    for value in dict_comp:
+        file_2.write(dict_comp[value])
 
-file.close()
+# Now file will be to read only subtitles without time and margin.
+
+with open('task1_new.txt', 'rt+') as file_2:
+    print(file_2.read())
 
 
-#2.
+# 2.
 # В файлі task2 збережений список, відкрийте цей файл, прочитайте вміст, і
 # знайдіть середнє арифметичне чисел що знаходяться в списку.
 
+from pickle import load
+import resource
 
-# read file 'task_2.txt' in as byte file
-file = open('task_2.txt', 'rb')
-b = file.read()
-print(b)
-file.close()
+with open('task2', 'rb') as file_2:
+    return_file_2 = load(file_2)
+    print(resource.RLIMIT_AS, (return_file_2))
 
-# change byte file on int
-change_on_int = int.from_bytes(b, 'little')
-print(change_on_int)
-
-# definition lenght file
-print(len([change_on_int]))
-
-# definition average value divided on 1, according with lenght
-average = change_on_int / 1
-print(average)
+average_sum = sum(return_file_2) / len(return_file_2)
+print("The average sum this number equal:", average_sum)
 
 
 # 3. Використовуючи openpyxl (або будь-яку іншу зручну для вас бібліотеку),
