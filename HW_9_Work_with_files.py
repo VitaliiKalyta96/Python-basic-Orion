@@ -33,11 +33,10 @@ with open('task1_new.txt', 'rt+') as file_2:
 # знайдіть середнє арифметичне чисел що знаходяться в списку.
 
 from pickle import load
-import resource
 
 with open('task2', 'rb') as file_2:
     return_file_2 = load(file_2)
-    print(resource.RLIMIT_AS, (return_file_2))
+    print(return_file_2)
 
 average_sum = sum(return_file_2) / len(return_file_2)
 print("The average sum this number equal:", average_sum)
