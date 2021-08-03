@@ -251,6 +251,7 @@ class RobotVacuumCleaner:
         try:
             self.capacity_garbage += randrange(0, 10)
             print("cleaning")
+<<<<<<< HEAD
 
             if 80 < self.capacity_garbage < 100:
                 raise HighCapacityGarbage
@@ -258,6 +259,15 @@ class RobotVacuumCleaner:
             elif self.capacity_garbage >= 100:
                 raise FullCapacityGarbage
 
+=======
+
+            if 80 < self.capacity_garbage < 100:
+                raise HighCapacityGarbage
+
+            elif self.capacity_garbage >= 100:
+                raise FullCapacityGarbage
+
+>>>>>>> 46648fa0f9c444b443f32ebc1689c7932251c9a1
         except HighCapacityGarbage:
             print("Already 80% garbage.")
         except FullCapacityGarbage:
@@ -287,8 +297,21 @@ class FullCapacityGarbage(Exception):
 
 
 the_cleaning = RobotVacuumCleaner(randrange(0, 100), randrange(0, 100), randrange(0, 100))
+<<<<<<< HEAD
 
 print(f"Charge:{the_cleaning.battery_charge}, Water:{the_cleaning.amount_of_water}, "
       f"Garbage:{the_cleaning.capacity_garbage} ")
 
 the_cleaning.move()
+=======
+
+print(f"Charge:{the_cleaning.battery_charge}, Water:{the_cleaning.amount_of_water}, "
+      f"Garbage:{the_cleaning.capacity_garbage} ")
+
+the_cleaning.move()
+
+
+
+
+
+>>>>>>> 46648fa0f9c444b443f32ebc1689c7932251c9a1
