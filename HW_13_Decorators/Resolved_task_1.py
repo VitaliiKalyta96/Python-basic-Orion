@@ -33,4 +33,5 @@ def input_data(list_):
     sleep(1)
     return list_
 
+
 print(input_data([1]))
