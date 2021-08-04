@@ -42,9 +42,9 @@ class TestCalc(TestCase):
         with self.assertRaises(TypeError):
             Calc.sqrt("17", 50)
         self.assertNotEqual(Calc.sqrt(21, 3), 20)
-        self.assertIsInstance(Calc.sqrt(3, 4), int)
+        self.assertIsInstance(Calc.sqrt(3, 4), float)
 
     def test_per_from_number_007(self):
-        self.assertEqual(Calc.per_from_number(20, 2), 0)
-        self.assertNotIsInstance(Calc.per_from_number(30, 3), float)
-        self.assertIsInstance(Calc.per_from_number(10, 2), int)
+        self.assertEqual(Calc.per_from_number(20, 2), 0.4)
+        self.assertNotIsInstance(Calc.per_from_number(30, 3), int)
+        self.assertIsInstance(Calc.per_from_number(10, 2), float)
