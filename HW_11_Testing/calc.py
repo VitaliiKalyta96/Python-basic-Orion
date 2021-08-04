@@ -57,28 +57,29 @@ class Calc:
         :param b: число друге підноситься до степені до числа першого
         :return: повертає загальне перше число з-під степеня другого числа
         """
-        return a ** b
+        return pow(a, b)
 
     @staticmethod
-    def sqrt(a, b):
+    def sqrt(a, b) -> float:
         """ Функція для кореня чисел
         >>> Calc.sqrt(6, 3)
-        5
+        1.82
 
         :param a: число перше, має бути інт
         :param b: число друге, має бути інт
-        :return: повертає загальне значення числа
+        :return: повертає результат від виконання функції
         """
-        return a ^ b
+        return round(a ** (1 / b), 2)
 
     @staticmethod
-    def per_from_number(a, b):
+    def per_from_number(a, b) -> float:
         """ Функція для вирахування відсотка від числа
         >>> Calc.per_from_number(7, 4)
-        3
+        0.28
 
         :param a: Перше значення числа
         :param b: Друге значення числа
         :return: Повертає відсоток від двох чисел
         """
-        return a % b
+        return (a * b) / 100
+
