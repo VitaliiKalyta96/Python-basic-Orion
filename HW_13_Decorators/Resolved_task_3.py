@@ -10,6 +10,11 @@ def accept(*args):
             for x in list_:
                 if isinstance(x, args):
                     new_list.append(x)
+                else:
+                    try:
+                        new_list.append(int(float(x)))
+                    except ValueError:
+                        continue
             result = func(new_list)
             return result
         return wrap
