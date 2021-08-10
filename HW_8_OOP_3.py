@@ -32,16 +32,16 @@ class Predator(Animal):
         else:
             print(f"speed = {self.speed}, power = {self.current_power}, {self.__class__.__name__} "
                   f"Run and Chase {victim.__class__.__name__}: power =  {victim.current_power}, speed = {victim.speed}")
-            if self.speed >= victim.speed:
+            if self.speed > victim.speed:
                 print(f"{self.__class__.__name__} caught {victim.__class__.__name__}")
 
                 if self.current_power < victim.current_power:
                     print(f"{victim.__class__.__name__} animal survived.")
+                elif self.current_power > victim.current_power:
+                    print(f'{self.__class__.__name__} victim hunted.')
 
-                else:
-                    print(f"Victim hunted {self.__class__.__name__}.")
-
-        if self.current_power == 0:
+        self.current_power = round(self.current_power * 0.5, 1)
+        if self.current_power <= 1:
             print(f'{self.__class__.__name__} died.')
             forest.remove_animal(self)
 
@@ -70,7 +70,10 @@ class Forest:
         self.animals: Dict[str, AnyAnimal] = dict()
 
     def add_animal(self, animal: AnyAnimal):
+        # self.animals.update({animal.id: animal})
+        # The definition names/id animals
         self.animals.update({animal.id: animal})
+        print(f'The {animal.__class__.__name__} Added {animal.id}')
 
     def remove_animal(self, animal: AnyAnimal):
         self.animals.pop(animal.id)
@@ -102,8 +105,9 @@ if __name__ == "__main__":
             break
         for animal in forest.animals.copy().values():
             animal.eat(forest=forest)
-            print('__________________________________________________________')
+            print('----------------------------------------------------------------------------')
         time.sleep(1)
 
 print("Surviving in forest.")
 print("The end.")
+
