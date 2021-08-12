@@ -2,26 +2,21 @@
 # запустити функцію видаляє з списку всі не чисельні типи даних, але якщо є строка яку можна перевести в число,
 # (наприклад “1”) то строка приводиться до чисельного типу даних.
 #
-def accept(*args):
-    def decor(func):
-        def wrap(list_):
-            print("Old list:", list_)
-            new_list = []
-            for x in list_:
-                if isinstance(x, args):
-                    new_list.append(x)
-                else:
-                    try:
-                        new_list.append(int(float(x)))
-                    except ValueError:
-                        continue
-            result = func(new_list)
-            return result
-        return wrap
-    return decor
+def dec(func):
+    def wrap(list_):
+        print("Old list:", list_)
+        new_list = []
+        for x in list_:
+            try:
+                new_list.append(float(x)) if type(x) != int else new_list.append(x)
+            except (ValueError, TypeError):
+                continue
+        return func(new_list)
+
+    return wrap
 
 
-@accept(int, float)
+@dec
 def element_in_lists(list_update):
     print("New list:", list_update)
     return print(sum(list_update))
