@@ -6,7 +6,8 @@
 def decor_func(function):
     def wrap(a, b):
         action = function(a, b)
-        return print(f" При катетах {a}, {b} – гіпотенуза дорівнює {action}.")
+        print(f" При катетах {a}, {b} – гіпотенуза дорівнює {action}.")
+        return action
 
     return wrap
 
@@ -15,5 +16,6 @@ def decor_func(function):
 def hyp(a, b):
     action = (a ** 2 + b ** 2) ** 0.5
     return int(action)
+
 
 hyp(3, 4)
