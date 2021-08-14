@@ -3,44 +3,54 @@
 # чи не існує на данний момент користувача з таким username і email,
 # якщо існує вивести помилку.
 
+import argparse
 import json
 
 
-class BadValue(Exception):
+class ExistUsernameValue(Exception):
     pass
 
 
-class ExistValue(Exception):
+class ExistEmailValue(Exception):
     pass
 
 
-def input_names(u, m):
-    result = {"username": u, "email": m}
-    return result
+parser = argparse.ArgumentParser()
+parser.add_argument("--username", help="Enter username: ")
+parser.add_argument("--email", help="Enter email: ")
 
+arguments = parser.parse_args()
+user_dict = {}
 
-list_values_users = []
+if arguments.username:
+    user_dict["username"] = arguments.username
 
-while True:
-    try:
-        record_inform = input("Enter value username:\t")
-        record_inform_2 = input("Enter value email:\t")
-        if record_inform[0] == 'value' or record_inform_2[1] == 'value':
-            break
-        for x in list_values_users:
-            if x['username'] != record_inform[0] or x["email"] != record_inform_2[1]:
-                list_values_users.append(input_names(record_inform[0], record_inform_2[1]))
-            else:
-                raise BadValue
-    except ExistValue:
-        print("To exist same values.")
+if arguments.email:
+    user_dict["email"] = arguments.email
 
-users = json.dumps(list_values_users)
+with open("users.json", 'r') as file:
+    user_data = json.loads(file.readline())
 
-with open("HW_15.json", "w") as file:
-    file.write(users)
+try:
+    for user in user_data:
+        if user["username"] == user_dict["username"]:
+            raise ExistUsernameValue
+        elif user["email"] == user_dict["email"]:
+            raise ExistEmailValue
 
-with open("HW_15.json", "r") as file:
-    json_obj = file.readlines()
+    user_data.append(user_dict)
 
-# py HW_15_Argument_parser_serialization.py
+except ExistUsernameValue:
+    print("Username already exist! To change him.")
+
+except ExistEmailValue:
+    print("Email already exist! To change him.")
+
+with open("users.json", 'w') as file:
+    file.write(json.dumps(user_data))
+
+"""Instruction."""
+# To record username and email do with help console and in file json must have "[]" for correct record.
+
+# py HW_15_Argument_parser_serialization.py --username Vitalii --email vitalii@gmail
+# py HW_15_Argument_parser_serialization.py --username Vitalik --email vitalik@gmail
