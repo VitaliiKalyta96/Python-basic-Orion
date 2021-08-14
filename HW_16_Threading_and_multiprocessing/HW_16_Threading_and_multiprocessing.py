@@ -7,21 +7,29 @@ import threading
 import math
 
 
-def thread_sqrt_function(name):
-    logging.info("Thread %s: start", name)
-    time.sleep(2)
-    equation_1 = math.sqrt(25)
-    equation_2 = math.sqrt(49)
-    logging.info(f"Thread {name}: Result equation_1: {equation_1}")
-    logging.info(f"Thread {name}: Result equation_2: {equation_2}")
-    time.sleep(2)
-    logging.info("Thread %s: finish", name)
-
-
 structure = "%(asctime)s: %(message)s"
 logging.basicConfig(level=logging.INFO, datefmt="%d.%m.%Y %H:%M:%S", format=structure)
 
-action_1 = threading.Thread(target=thread_sqrt_function, args=(1, ))
-action_2 = threading.Thread(target=thread_sqrt_function, args=(2, ))
+
+def thread_sqrt_function(name, a, b, c):
+    logging.info("Thread %s: start", name)
+    time.sleep(2)
+    d = (b ** 2) - (4 * a * c)
+    logging.info(f"Thread {name}: numbers: a={a}, b={b}, c={c}")
+    y1 = (-b + math.sqrt(d)) / (2 * a)
+    y2 = (-b - math.sqrt(d)) / (2 * a)
+    logging.info(f"Thread {name}, {d}")
+    if d > 0:
+        logging.info(f"Thread {name}, y1 = {y1}, y2 = {y2}")
+    elif d == 0:
+        y = -b / (2 * a)
+        logging.info(f"Thread {name}, y = {y}")
+    elif d < 0:
+        logging.info(f"Not correct value.")
+    time.sleep(2)
+    logging.info("Thread %s: finish", name)
+
+action_1 = threading.Thread(target=thread_sqrt_function, args=(1, 2, 4, -3))
+action_2 = threading.Thread(target=thread_sqrt_function, args=(2, 1, 5, 2))
 action_1.start()
 action_2.start()
