@@ -13,7 +13,6 @@ def thread_sqrt_function(name):
     equation_1 = math.sqrt(25)
     equation_2 = math.sqrt(49)
     logging.info(f"Thread {name}: Result equation_1: {equation_1}")
-    time.sleep(2)
     logging.info(f"Thread {name}: Result equation_2: {equation_2}")
     time.sleep(2)
     logging.info("Thread %s: finish", name)
