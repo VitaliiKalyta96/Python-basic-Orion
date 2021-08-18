@@ -22,7 +22,7 @@ def read_sock():
 
 while True:
 
-    server = ('192.168.31.188', 5151)
+    server = ('192.162.34.23', 7070)
     alias = input("Your username: ")
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(('', 0))
