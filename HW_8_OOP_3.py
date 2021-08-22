@@ -19,9 +19,9 @@ class Animal(ABC):
 
     def hunt(self):
         self.current_power = round(self.current_power * 0.5, 1)
-        if self.current_power <= 1:
-            print(f'{self.__class__.__name__} died.')
+        if self.current_power < 1:
             forest.remove_animal(self)
+            print(f'{self.__class__.__name__} died.')
         else:
             print(f'{self.__class__.__name__} to reduce power to {self.current_power}')
 
@@ -46,16 +46,9 @@ class Predator(Animal):
 
         if victim.id == self.id:
             print(f"{self.__class__.__name__} unlucky, without dinner.")
-        else:
-            print(f"{self.__class__.__name__}: speed = {self.speed}, power = {self.current_power}"
-                  f" Run and Chase {victim.__class__.__name__}: speed = {victim.speed}, power = {victim.current_power}")
-
             if self.speed > victim.speed:
-                print(f"{self.__class__.__name__} caught {victim.__class__.__name__}")
-            else:
-                print(f'{self.__class__.__name__} did not caught up')
-                victim.hunt()
-                self.hunt()
+                print(f"{self.__class__.__name__}: speed = {self.speed}"
+                      f"caught {victim.__class__.__name__}: speed = {victim.speed}")
 
                 if self.current_power < victim.current_power:
                     print(f"{victim.__class__.__name__} animal survived.")
@@ -63,6 +56,10 @@ class Predator(Animal):
                 elif self.current_power > victim.current_power:
                     print(f'{self.__class__.__name__} victim hunted.')
                     self.power_increase()
+            else:
+                print(f'{self.__class__.__name__} did not caught up')
+                victim.hunt()
+                self.hunt()
 
 
 class Herbivorous(Animal):
@@ -100,6 +97,7 @@ class Forest:
         for key in self.animals.values():
             if isinstance(key, Predator):
                 animal_exist = True
+                break
         return animal_exist
 
 
